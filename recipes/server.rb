@@ -9,18 +9,17 @@ package "upstart"
 
 user "torquebox" do
   comment "torquebox"
-  system true
-  shell "/bin/false"
+  #shell "/bin/false"
+  home "/home/torquebox"
+  supports :manage_home => true
 end
 
-puts node[:torquebox][:url]
-
 install_from_release('torquebox') do
-  release_url  node[:torquebox][:url]
-  home_dir     prefix
-  action       [:install, :install_binaries]
-  version     version
-  checksum node[:torquebox][:checksum]
+  release_url   node[:torquebox][:url]
+  home_dir      prefix
+  action        [:install, :install_binaries]
+  version       version
+  checksum      node[:torquebox][:checksum]
   not_if{ File.exists?(prefix) }
 end
 
@@ -33,9 +32,9 @@ link current do
   to prefix
 end
 
-# install upstart
+# install upstart & get it running
 execute "torquebox-upstart" do
-  command "rake torquebox:upstart:install"
+  command "jruby -S rake torquebox:upstart:install"
   creates "/etc/init/torquebox.conf"
   cwd current
   action :run
@@ -47,4 +46,16 @@ execute "torquebox-upstart" do
   })
 end
 
+execute "chown torquebox" do
+    command "chown -R torquebox:torquebox /usr/local/share/torquebox-#{version}"
+end
 
+service "torquebox" do
+    provider Chef::Provider::Service::Upstart
+    action [:enable, :start]
+end
+
+# otherwise bundler won't work in jruby
+gem_package 'jruby-openssl' do
+    gem_binary "#{current}/jruby/bin/jgem"
+end
