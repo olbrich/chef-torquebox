@@ -1,15 +1,17 @@
-
-
 version = node[:torquebox][:version]
 prefix = "/opt/torquebox-#{version}"
 current = "/opt/torquebox-current"
+
+ENV['TORQUEBOX_HOME'] = current
+ENV['JBOSS_HOME'] = "#{current}/jboss"
+ENV['JRUBY_HOME'] = "#{current}/jruby"
+ENV['PATH'] = "#{ENV['PATH']}:#{ENV['JRUBY_HOME']}/bin"
 
 package "unzip"
 package "upstart"
 
 user "torquebox" do
   comment "torquebox"
-  #shell "/bin/false"
   home "/home/torquebox"
   supports :manage_home => true
 end
@@ -58,4 +60,12 @@ end
 # otherwise bundler won't work in jruby
 gem_package 'jruby-openssl' do
     gem_binary "#{current}/jruby/bin/jgem"
+end
+
+#allows use of 'torquebox' command through sudo
+cookbook_file "/etc/sudoers.d/torquebox" do
+    source 'sudoers'
+    owner 'root'
+    group 'root'
+    mode '0440'
 end
