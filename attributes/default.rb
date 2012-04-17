@@ -1,5 +1,3 @@
-
-
 default[:torquebox][:version] = "2.0.1"
 default[:torquebox][:url] = "http://torquebox.org/release/org/torquebox/torquebox-dist/#{node[:torquebox][:version]}/torquebox-dist-#{node[:torquebox][:version]}-bin.zip"
 default[:torquebox][:checksum] = "7c37a5afae32af3fa07f9ba3b6c4eb07"
