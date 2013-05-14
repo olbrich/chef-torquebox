@@ -1,0 +1,9 @@
+-A FWR -p tcp -m tcp --dport 8080 -j ACCEPT
+
+# for jgroup clustering
+-A FWR -p udp -j ACCEPT
+-A FWR -m pkttype --pkt-type multicast -j ACCEPT
+-A OUTPUT -m pkttype --pkt-type multicast -j ACCEPT
+
+# for hornetq clustering
+-A FWR -p tcp -m tcp -j ACCEPT

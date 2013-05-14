@@ -7,6 +7,9 @@ ENV['JBOSS_HOME']     = "#{current}/jboss"
 ENV['JRUBY_HOME']     = "#{current}/jruby"
 ENV['PATH']           = "#{ENV['PATH']}:#{ENV['JRUBY_HOME']}/bin"
 
+include_recipe 'iptables'
+iptables_rule 'iptables'
+
 package "unzip"
 package "upstart"
 package 'logrotate'
@@ -20,23 +23,6 @@ end
 
 gem_package "ruby-shadow" do
   action :install
-end
-
-
-users_manage "deploy" do
-  group_id 1500
-  action [:remove, :create]
-end
-
-group 'torquebox' do
-  members ['torquebox', 'deploy']
-end
-
-cookbook_file "/etc/sudoers.d/deploy" do
-  source 'sudoers-deploy'
-  owner 'root'
-  group 'root'
-  mode '0440'
 end
 
 directory "/home/torquebox/.ssh" do
