@@ -2,5 +2,9 @@
 export TORQUEBOX_HOME=/opt/torquebox-current
 export JBOSS_HOME=$TORQUEBOX_HOME/jboss
 export JRUBY_HOME=$TORQUEBOX_HOME/jruby
-export JRUBY_OPTS=<%= node[:torquebox][:jruby][:opts] %>
+export JRUBY_OPTS="<%= node[:torquebox][:jruby][:opts] %>"
 export PATH=$JRUBY_HOME/bin:$PATH
+export APPEND_JAVA_OPTS="-Djboss.bind.address=<%= node['torquebox']['bind_address'] %> -Djboss.server.data.dir=<%= node['torquebox']['data_dir'] %> <%= node['java']['opts'] %>"
+<% if node['torquebox']['max_threads'] %>
+export APPEND_JAVA_OPTS="$APPEND_JAVA_OPTS -Dorg.torquebox.web.http.maxThreads=<%= node['torquebox']['max_threads'] %>"
+<% end %>

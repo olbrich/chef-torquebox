@@ -1,0 +1,9 @@
+/var/log/torquebox/torquebox.log {
+  compress
+  copytruncate
+  daily
+  dateext
+  missingok
+  rotate 30
+}
+

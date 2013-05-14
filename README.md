@@ -3,6 +3,6 @@
 
 WARNING: work-in-progress.
 
-## TODO
+## Usage
 
-* add mod_cluster support
+    include_recipe 'torquebox::server'

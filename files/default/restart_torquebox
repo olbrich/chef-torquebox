@@ -1,0 +1,19 @@
+#!/bin/bash
+DELAY=${DELAY:-60}
+PID=$(pgrep -f java)
+if [ "$?" = "0" ];then
+  count=0
+  stop torquebox
+  while [[ -d /proc/$PID && $count -lt $DELAY ]]; do
+    count=$((count+1))
+    sleep 1
+    echo -n .
+  done
+  if [ $count -lt $DELAY ]; then
+    echo "torquebox exited"
+  else
+    echo "killed torquebox"
+    pkill -9 -f java
+  fi
+fi
+start torquebox
