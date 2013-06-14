@@ -1,6 +1,6 @@
-default[:torquebox][:version]      = "2.3.1"
+default[:torquebox][:version]      = "2.3.2"
 default[:torquebox][:url]          = "http://torquebox.org/release/org/torquebox/torquebox-dist/#{node[:torquebox][:version]}/torquebox-dist-#{node[:torquebox][:version]}-bin.zip"
-default[:torquebox][:checksum]     = "d3f6f667c09556f27fcff7a8b5ad64a425a056ed"
+default[:torquebox][:checksum]     = "b30ecaac1c1b8b42d8b3aba4fb2335d2054f21a3"
 default[:torquebox][:jruby][:opts] = "--1.9 -Xcext.enabled=true"
 override[:jruby][:install_path]     = "/opt/torquebox-current/jruby"
 default[:torquebox][:data_dir]     = "/var/torquebox/data"
